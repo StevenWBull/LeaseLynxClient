@@ -1,5 +1,6 @@
 // Note: This is the main component of the application
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import './App.css';
 import Footer from '../Footer/Footer';
 import Header from '../Header/Header';
@@ -12,7 +13,7 @@ const App = () => {
         <>
             <Router>
                 {/* Create sticky footer */}
-                <div className="flex flex-col min-h-screen">
+                <div className="flex flex-col min-h-screen relative">
                     <Header />
                     <main className="flex-grow">
                         <div className="mx-auto margin-top">

@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 const PropertyCard = ({ property }) => {
     return (
-        <div className="bg-white rounded shadow-md p-4">
+        <div className="bg-blue-600 text-white rounded shadow-lg p-4 my-2">
             <img
                 src={property.image}
                 alt={`Property at ${property.address}`}
@@ -12,9 +12,10 @@ const PropertyCard = ({ property }) => {
             <div className="mb-2">
                 <p className="text-lg font-semibold">{property.address}</p>
             </div>
-            <div className="text-sm text-gray-600 mb-2">
+            <div className="text-sm text-white-600 mb-2">
                 <p>Renter: {property.renterName}</p>
                 <p>Termination Date: {property.terminationDate}</p>
+                <p>Days Until Termination: {property.terminationDate}</p>
             </div>
         </div>
     );

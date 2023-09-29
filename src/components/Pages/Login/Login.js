@@ -13,7 +13,7 @@ const Login = () => {
     };
 
     return (
-        <div className="min-h-screen flex items-center justify-center bg-gray-100">
+        <div className="custom-min-height flex items-center justify-center bg-gray-100">
             <div className="bg-white p-8 rounded shadow-md w-96">
                 <h2 className="text-2xl font-semibold text-center mb-6">
                     Sign In
