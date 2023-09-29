@@ -1,9 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './PropertyCard.css';
 
 const PropertyCard = ({ property }) => {
     return (
-        <div className="bg-blue-600 text-white rounded shadow-lg p-4 my-2">
+        <div className="bg-blue-600 text-white rounded shadow-custom p-4 my-2">
             <img
                 src={property.image}
                 alt={`Property at ${property.address}`}
