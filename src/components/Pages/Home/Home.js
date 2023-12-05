@@ -1,9 +1,23 @@
-import React from 'react';
+import React, { useState } from 'react';
 import PropertyCard from '../../PropertyCard/PropertyCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import LeaseInfoForm from '../../Forms/LeaseInfoForm';
+import Modal from '../../Modal/Modal';
 
 const Home = () => {
+    const [showModal, setShowModal] = useState(false);
+    const [leaseInfo, setLeaseInfo] = useState(null);
+
+    const handleSave = (info) => {
+        setLeaseInfo(info);
+        setShowModal(false); // Close the form after saving
+    };
+
+    const handleClose = () => {
+        setShowModal(false);
+    };
+
     // Sample data for properties (replace with your own data)
     const properties = [
         {
@@ -43,6 +57,14 @@ const Home = () => {
 
     return (
         <>
+            {showModal && (
+                <Modal
+                    onClose={handleClose}
+                    onSave={() => handleSave(leaseInfo)}
+                >
+                    <LeaseInfoForm onSave={(info) => setLeaseInfo(info)} />
+                </Modal>
+            )}
             <div className="container mx-auto py-4 custom-min-height">
                 <div className="text-center">
                     <h1 className="text-3xl font-semibold mb-4">
@@ -55,9 +77,7 @@ const Home = () => {
                 <div className="grid grid-cols-1 px-4 relative">
                     <button
                         className="fixed bottom-8 right-8 bg-blue-900 hover:bg-blue-600 text-white w-16 h-16 rounded-full shadow-lg transition duration-300 ease-in-out flex items-center justify-center"
-                        onClick={() => {
-                            // Add your logic for adding a property here
-                        }}
+                        onClick={() => setShowModal(true)}
                     >
                         <FontAwesomeIcon icon={faPlus} size="2x" />
                     </button>
