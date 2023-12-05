@@ -1,10 +1,20 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './PropertyCard.css';
+import { useNavigate } from 'react-router-dom';
 
 const PropertyCard = ({ property }) => {
+    const navigate = useNavigate();
+
+    const goToDetailsPage = () => {
+        navigate('/lease-details', { state: { leaseInfo: property } });
+    };
+
     return (
-        <div className="bg-blue-600 text-white rounded shadow-custom p-4 my-2">
+        <div
+            className="bg-blue-600 text-white rounded shadow-custom p-4 my-2"
+            onClick={goToDetailsPage}
+        >
             <img
                 src={property.image}
                 alt={`Property at ${property.address}`}

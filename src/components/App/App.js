@@ -7,6 +7,7 @@ import Header from '../Header/Header';
 import Landing from '../Pages/Landing/Landing';
 import Login from '../Pages/Login/Login';
 import Home from '../Pages/Home/Home';
+import LeaseDetails from '../Pages/LeaseDetails/LeaseDetails';
 
 const App = () => {
     return (
@@ -21,6 +22,10 @@ const App = () => {
                                 <Route path="/" element={<Landing />} />
                                 <Route path="/login" element={<Login />} />
                                 <Route path="/home" element={<Home />} />
+                                <Route
+                                    path="/lease-details"
+                                    element={<LeaseDetails />}
+                                />
                             </Routes>
                         </div>
                     </main>
