@@ -7,10 +7,12 @@ import Header from '../Header/Header';
 import Landing from '../Pages/Landing/Landing';
 import Login from '../Pages/Login/Login';
 import Home from '../Pages/Home/Home';
+import ContactSupport from '../Pages/ContactSupport/ContactSupport';
 import LeaseDetails from '../Pages/LeaseDetails/LeaseDetails';
 import RequireAuth from '../Auth/RequireAuth';
 import RedirectIfAuthenticated from '../Auth/RedirectIfAuthenticated';
 import { AuthProvider } from '../../context/AuthContext';
+import AccountPage from '../Pages/AccountPage/AccountPage';
 
 const App = () => {
     return (
@@ -22,6 +24,10 @@ const App = () => {
                     <main className="flex-grow">
                         <div className="mx-auto margin-top">
                             <Routes>
+                                <Route
+                                    path="/contact-support"
+                                    element={<ContactSupport />}
+                                />
                                 <Route
                                     path="/"
                                     element={
@@ -51,6 +57,14 @@ const App = () => {
                                     element={
                                         <RequireAuth>
                                             <LeaseDetails />
+                                        </RequireAuth>
+                                    }
+                                />
+                                <Route
+                                    path="/account"
+                                    element={
+                                        <RequireAuth>
+                                            <AccountPage />
                                         </RequireAuth>
                                     }
                                 />

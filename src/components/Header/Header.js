@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
 import { useAuth } from '../../context/AuthContext';
+import { useLocation } from 'react-router-dom';
 
 const Header = () => {
-    const [pathname, _] = useState(window.location.pathname);
+    const location = useLocation();
+    const [pathname, setPathname] = useState(window.location.pathname);
     const { currentUser, logout } = useAuth();
 
     // Function to scroll to a section when a navigation link is clicked
@@ -43,6 +45,11 @@ const Header = () => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
+
+    // Update the pathname state when the location changes
+    useEffect(() => {
+        setPathname(location.pathname);
+    }, [location]);
 
     // Define CSS classes for the header based on scroll state
     const headerClasses = `bg-blue-900 text-white py-4 fixed top-0 left-0 w-full z-10 ${
@@ -83,6 +90,12 @@ const Header = () => {
                         >
                             Account
                         </Link>
+                        <Link
+                            to="/contact-support"
+                            className="text-white hover:text-blue-300 transition duration-300 ease-in-out"
+                        >
+                            Support
+                        </Link>
                         <button
                             onClick={handleLogout}
                             className="text-white hover:text-blue-300 transition duration-300 ease-in-out"
@@ -90,7 +103,7 @@ const Header = () => {
                             Log Out
                         </button>
                     </nav>
-                ) : (
+                ) : pathname === '/' ? (
                     <nav className="mr-3 space-x-4">
                         <Link
                             to="/login"
@@ -117,6 +130,8 @@ const Header = () => {
                             Contact
                         </a>
                     </nav>
+                ) : (
+                    ''
                 )}
             </div>
         </header>

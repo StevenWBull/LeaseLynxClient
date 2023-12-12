@@ -1,4 +1,5 @@
 import './Landing.css';
+import { Link } from 'react-router-dom';
 
 const Landing = () => {
     return (
@@ -139,37 +140,16 @@ const Landing = () => {
                 <div className="container mx-auto text-center">
                     <h2 className="text-3xl font-bold mb-8">Contact Us</h2>
                     <p className="text-gray-600 mb-8">
-                        Have questions or need assistance? Contact our support
-                        team.
+                        Have questions, want a demo, or need assistance? Contact
+                        our support team!
                     </p>
-                    <form className="max-w-md mx-auto">
-                        <div className="mb-4">
-                            <input
-                                type="text"
-                                placeholder="Name"
-                                className="bg-gray-100 w-full p-3 rounded-lg"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <input
-                                type="email"
-                                placeholder="Email"
-                                className="bg-gray-100 w-full p-3 rounded-lg"
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <textarea
-                                placeholder="Message"
-                                className="bg-gray-100 w-full p-3 rounded-lg"
-                            ></textarea>
-                        </div>
-                        <button
-                            type="submit"
-                            className="bg-blue-900 text-white py-2 px-6 rounded-full text-lg hover:bg-blue-700 transition duration-300 ease-in-out"
-                        >
-                            Submit
-                        </button>
-                    </form>
+                    {/* Removed the form and added a Link component */}
+                    <Link
+                        to="/contact-support"
+                        className="bg-blue-900 text-white py-2 px-6 rounded-full text-lg hover:bg-blue-700 transition duration-300 ease-in-out"
+                    >
+                        Contact Support
+                    </Link>
                 </div>
             </section>
         </div>
