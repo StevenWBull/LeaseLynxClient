@@ -1,15 +1,35 @@
 import React, { useState } from 'react';
 import './Login.css';
+import { useAuth } from '../../../context/AuthContext';
+import UserService from '../../../Services/UserService';
+import useSweetAlert from '../../../hooks/useSweetAlert';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
+    const { showAlert } = useSweetAlert();
+    const { login } = useAuth();
 
-    const handleSignIn = (e) => {
+    const handleSignIn = async (e) => {
         e.preventDefault();
-        // Add your sign-in logic here
-        console.log('Email:', email);
-        console.log('Password:', password);
+
+        try {
+            const { message, token } = await UserService.postLogin(
+                email,
+                password
+            );
+            console.log(token);
+            login({ email, token });
+        } catch (error) {
+            const options = {
+                icon: 'error',
+                title: 'Error',
+                text: error?.response
+                    ? error.response.data.message
+                    : error.message,
+            };
+            showAlert(options);
+        }
     };
 
     return (
