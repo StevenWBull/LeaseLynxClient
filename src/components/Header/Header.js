@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import './Header.css';
+import { useAuth } from '../../context/AuthContext';
 
 const Header = () => {
     const [pathname, _] = useState(window.location.pathname);
+    const { currentUser, logout } = useAuth();
+
     // Function to scroll to a section when a navigation link is clicked
     const scrollToSection = (e, sectionId) => {
         e.preventDefault();
@@ -18,6 +21,11 @@ const Header = () => {
 
     // State to track whether the user has scrolled
     const [hasScrolled, setHasScrolled] = useState(false);
+
+    // Function to handle logout
+    const handleLogout = () => {
+        logout();
+    };
 
     // Function to handle scroll events
     const handleScroll = () => {
@@ -64,36 +72,52 @@ const Header = () => {
     return (
         <header className={headerClasses}>
             <div className="container mx-auto flex items-center justify-between">
-                {/* Logo */}
                 {logoType()}
 
-                {/* Navigation Menu */}
-                <nav className="mr-3 space-x-4">
-                    <Link
-                        to="/login"
-                        className="text-white hover:text-blue-300 transition duration-300 ease-in-out"
-                    >
-                        Login
-                    </Link>
-                    <a
-                        className="text-white hover:text-blue-300 transition duration-300 ease-in-out"
-                        onClick={(e) => scrollToSection(e, 'features')}
-                    >
-                        Features
-                    </a>
-                    <a
-                        className="text-white hover:text-blue-300 transition duration-300 ease-in-out"
-                        onClick={(e) => scrollToSection(e, 'pricing')}
-                    >
-                        Pricing
-                    </a>
-                    <a
-                        className="text-white hover:text-blue-300 transition duration-300 ease-in-out"
-                        onClick={(e) => scrollToSection(e, 'contact')}
-                    >
-                        Contact
-                    </a>
-                </nav>
+                {/* Conditional rendering based on authentication status */}
+                {currentUser ? (
+                    <nav className="mr-3 space-x-4">
+                        <Link
+                            to="/account"
+                            className="text-white hover:text-blue-300 transition duration-300 ease-in-out"
+                        >
+                            Account
+                        </Link>
+                        <button
+                            onClick={handleLogout}
+                            className="text-white hover:text-blue-300 transition duration-300 ease-in-out"
+                        >
+                            Log Out
+                        </button>
+                    </nav>
+                ) : (
+                    <nav className="mr-3 space-x-4">
+                        <Link
+                            to="/login"
+                            className="text-white hover:text-blue-300 transition duration-300 ease-in-out"
+                        >
+                            Login
+                        </Link>
+                        <a
+                            className="text-white hover:text-blue-300 transition duration-300 ease-in-out"
+                            onClick={(e) => scrollToSection(e, 'features')}
+                        >
+                            Features
+                        </a>
+                        <a
+                            className="text-white hover:text-blue-300 transition duration-300 ease-in-out"
+                            onClick={(e) => scrollToSection(e, 'pricing')}
+                        >
+                            Pricing
+                        </a>
+                        <a
+                            className="text-white hover:text-blue-300 transition duration-300 ease-in-out"
+                            onClick={(e) => scrollToSection(e, 'contact')}
+                        >
+                            Contact
+                        </a>
+                    </nav>
+                )}
             </div>
         </header>
     );

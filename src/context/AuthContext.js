@@ -31,6 +31,10 @@ export const AuthProvider = ({ children }) => {
         return jwtPayload;
     };
 
+    const isAuthenticated = () => {
+        return currentUser !== null;
+    };
+
     const login = (user) => {
         setCurrentUser(user);
         localStorage.setItem('currentUser', JSON.stringify(user));
