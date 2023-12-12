@@ -28,30 +28,30 @@ const Home = () => {
             terminationDate: '2023-12-31', // Replace with the termination date
             daysUntilTermination: 0, // Replace with the number of days until termination
         },
-        // {
-        //     id: 1,
-        //     image: 'property1.jpg', // Replace with the actual image URL
-        //     address: '123 Main St',
-        //     renterName: 'John Doe',
-        //     terminationDate: '2023-12-31', // Replace with the termination date
-        //     daysUntilTermination: 0, // Replace with the number of days until termination
-        // },
-        // {
-        //     id: 1,
-        //     image: 'property1.jpg', // Replace with the actual image URL
-        //     address: '123 Main St',
-        //     renterName: 'John Doe',
-        //     terminationDate: '2023-12-31', // Replace with the termination date
-        //     daysUntilTermination: 0, // Replace with the number of days until termination
-        // },
-        // {
-        //     id: 1,
-        //     image: 'property1.jpg', // Replace with the actual image URL
-        //     address: '123 Main St',
-        //     renterName: 'John Doe',
-        //     terminationDate: '2023-12-31', // Replace with the termination date
-        //     daysUntilTermination: 0, // Replace with the number of days until termination
-        // },
+        {
+            id: 2,
+            image: 'property1.jpg', // Replace with the actual image URL
+            address: '123 Main St',
+            renterName: 'John Doe',
+            terminationDate: '2023-12-31', // Replace with the termination date
+            daysUntilTermination: 0, // Replace with the number of days until termination
+        },
+        {
+            id: 3,
+            image: 'property1.jpg', // Replace with the actual image URL
+            address: '123 Main St',
+            renterName: 'John Doe',
+            terminationDate: '2023-12-31', // Replace with the termination date
+            daysUntilTermination: 0, // Replace with the number of days until termination
+        },
+        {
+            id: 4,
+            image: 'property1.jpg', // Replace with the actual image URL
+            address: '123 Main St',
+            renterName: 'John Doe',
+            terminationDate: '2023-12-31', // Replace with the termination date
+            daysUntilTermination: 0, // Replace with the number of days until termination
+        },
         // Add more property objects here
     ];
 

@@ -8,10 +8,13 @@ import Landing from '../Pages/Landing/Landing';
 import Login from '../Pages/Login/Login';
 import Home from '../Pages/Home/Home';
 import LeaseDetails from '../Pages/LeaseDetails/LeaseDetails';
+import RequireAuth from '../Auth/RequireAuth';
+import RedirectIfAuthenticated from '../Auth/RedirectIfAuthenticated';
+import { AuthProvider } from '../../context/AuthContext';
 
 const App = () => {
     return (
-        <>
+        <AuthProvider>
             <Router>
                 {/* Create sticky footer */}
                 <div className="flex flex-col min-h-screen relative">
@@ -19,12 +22,37 @@ const App = () => {
                     <main className="flex-grow">
                         <div className="mx-auto margin-top">
                             <Routes>
-                                <Route path="/" element={<Landing />} />
-                                <Route path="/login" element={<Login />} />
-                                <Route path="/home" element={<Home />} />
+                                <Route
+                                    path="/"
+                                    element={
+                                        <RedirectIfAuthenticated>
+                                            <Landing />
+                                        </RedirectIfAuthenticated>
+                                    }
+                                />
+                                <Route
+                                    path="/login"
+                                    element={
+                                        <RedirectIfAuthenticated>
+                                            <Login />
+                                        </RedirectIfAuthenticated>
+                                    }
+                                />
+                                <Route
+                                    path="/home"
+                                    element={
+                                        <RequireAuth>
+                                            <Home />
+                                        </RequireAuth>
+                                    }
+                                />
                                 <Route
                                     path="/lease-details"
-                                    element={<LeaseDetails />}
+                                    element={
+                                        <RequireAuth>
+                                            <LeaseDetails />
+                                        </RequireAuth>
+                                    }
                                 />
                             </Routes>
                         </div>
@@ -32,7 +60,7 @@ const App = () => {
                     <Footer />
                 </div>
             </Router>
-        </>
+        </AuthProvider>
     );
 };
 

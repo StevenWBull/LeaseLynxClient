@@ -12,7 +12,7 @@ const PropertyCard = ({ property }) => {
 
     return (
         <div
-            className="bg-blue-600 text-white rounded shadow-custom p-4 my-2"
+            className="bg-blue-600 text-white rounded shadow-custom p-4 my-2 cursor-pointer"
             onClick={goToDetailsPage}
         >
             <img
