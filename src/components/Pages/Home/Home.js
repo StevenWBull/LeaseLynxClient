@@ -4,8 +4,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import LeaseInfoForm from '../../Forms/LeaseInfoForm';
 import Modal from '../../Modal/Modal';
+import { useAuth } from '../../../context/AuthContext';
 
 const Home = () => {
+    const currentUser = useAuth().getUserData();
     const [showModal, setShowModal] = useState(false);
     const [leaseInfo, setLeaseInfo] = useState(null);
 
@@ -68,7 +70,7 @@ const Home = () => {
             <div className="container mx-auto py-4 custom-min-height">
                 <div className="text-center">
                     <h1 className="text-3xl font-semibold mb-4">
-                        Welcome, [User's Name]
+                        Welcome, {currentUser.firstName}!
                     </h1>
                 </div>
 
