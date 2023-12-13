@@ -27,6 +27,7 @@ const AccountPage = () => {
             lastName,
             email,
         }));
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     const handleChange = (e) => {
@@ -62,10 +63,10 @@ const AccountPage = () => {
 
         // Construct the data object to submit based on whether the password is being changed
         const submitData = {
-            firstName: userData.firstName,
-            lastName: userData.lastName,
+            first_name: userData.firstName,
+            last_name: userData.lastName,
             email: userData.email,
-            ...(userData.changePassword && { password: userData.password }),
+            ...(userData.changePassword && { pword: userData.password }),
             profileImage: userData.profileImage,
         };
 
@@ -76,16 +77,20 @@ const AccountPage = () => {
                 submitData
             );
 
-            if (response.ok) {
-                const data = await response.json();
-                updateUser({ email: userData.email, token: data.token });
+            if (response.statusText === 'OK') {
+                const data = await response.data;
+                console.log(data);
+                updateUser({
+                    email: data?.currentUserInfo?.email,
+                    token: data?.token,
+                });
                 showAlert({
                     icon: 'success',
                     title: 'Success!',
                     text: 'Your account has been updated.',
                 });
             } else {
-                const errorData = await response.json();
+                const errorData = await response.data;
                 showAlert({
                     icon: 'error',
                     title: 'Error',
@@ -97,7 +102,7 @@ const AccountPage = () => {
                 icon: 'error',
                 title: 'Error',
                 text:
-                    error.response.data.error ||
+                    error.error ||
                     'An error occurred while updating your account.',
             });
         }
@@ -109,7 +114,7 @@ const AccountPage = () => {
                 <h1 className="text-3xl font-bold mb-4">Account Settings</h1>
                 <form onSubmit={handleSubmit}>
                     {/* Profile Picture */}
-                    <div className="mb-4">
+                    {/* <div className="mb-4">
                         <label
                             htmlFor="profileImage"
                             className="block text-sm font-bold mb-2"
@@ -127,7 +132,7 @@ const AccountPage = () => {
                 file:bg-blue-50 file:text-blue-700
                 hover:file:bg-blue-100"
                         />
-                    </div>
+                    </div> */}
                     {/* First Name */}
                     <div className="mb-4">
                         <label
