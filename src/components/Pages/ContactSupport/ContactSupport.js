@@ -1,11 +1,24 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../../context/AuthContext';
+import SupportService from '../../../Services/SupportService';
+import useSweetAlert from '../../../hooks/useSweetAlert';
 
 const ContactSupport = () => {
+    const currentUser = useAuth().getUserData();
+    const { showAlert } = useSweetAlert();
+    const navigate = useNavigate();
     const [formData, setFormData] = useState({
-        name: '',
-        email: '',
-        message: '',
+        name: currentUser?.firstName
+            ? `${currentUser?.firstName} ${currentUser?.lastName}`
+            : '',
+        email: currentUser?.email || '',
+        supportMessage: '',
     });
+
+    const navigateToHome = () => {
+        return currentUser?.id ? navigate('/home') : navigate('/');
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -15,10 +28,25 @@ const ContactSupport = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        // Here you would handle the form submission, e.g., sending data to an API
-        console.log(formData);
+        const response = await SupportService.postSupport(formData);
+
+        if (response.status === 201) {
+            const options = {
+                icon: 'success',
+                title: 'Success',
+                text: 'Your message has been sent!',
+            };
+            showAlert(options, navigateToHome());
+        } else {
+            const options = {
+                icon: 'error',
+                title: 'Error',
+                text: response?.data?.message || response?.message,
+            };
+            showAlert(options, navigateToHome());
+        }
     };
 
     return (
@@ -39,7 +67,7 @@ const ContactSupport = () => {
                             name="name"
                             value={formData.name}
                             onChange={handleChange}
-                            className="w-full p-2 rounded-md"
+                            className="w-full p-2 rounded-md text-black"
                             placeholder="Enter your name"
                             required
                         />
@@ -57,24 +85,24 @@ const ContactSupport = () => {
                             name="email"
                             value={formData.email}
                             onChange={handleChange}
-                            className="w-full p-2 rounded-md"
+                            className="w-full p-2 rounded-md text-black"
                             placeholder="Enter your email"
                             required
                         />
                     </div>
                     <div className="mb-4">
                         <label
-                            htmlFor="message"
+                            htmlFor="supportMessage"
                             className="block text-sm font-bold mb-2"
                         >
                             Your Message:
                         </label>
                         <textarea
-                            id="message"
-                            name="message"
-                            value={formData.message}
+                            id="supportMessage"
+                            name="supportMessage"
+                            value={formData.supportMessage}
                             onChange={handleChange}
-                            className="w-full p-2 rounded-md"
+                            className="w-full p-2 rounded-md text-black"
                             placeholder="Enter your message"
                             rows="4"
                             required

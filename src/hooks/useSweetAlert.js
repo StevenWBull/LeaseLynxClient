@@ -24,8 +24,8 @@ import Swal from 'sweetalert2';
  */
 
 const useSweetAlert = () => {
-    const showAlert = (options) => {
-        Swal.fire(options);
+    const showAlert = (options, callback = () => {}) => {
+        Swal.fire(options).then(() => callback);
     };
 
     return {
