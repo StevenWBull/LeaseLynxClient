@@ -28,7 +28,10 @@ export const AuthProvider = ({ children }) => {
         */
         const userToken = currentUser.token;
         const jwtPayload = jwtDecode(userToken);
-        return jwtPayload;
+        return {
+            ...jwtPayload,
+            token: userToken,
+        };
     };
 
     const isAuthenticated = () => {
@@ -36,6 +39,11 @@ export const AuthProvider = ({ children }) => {
     };
 
     const login = (user) => {
+        setCurrentUser(user);
+        localStorage.setItem('currentUser', JSON.stringify(user));
+    };
+
+    const updateUser = (user) => {
         setCurrentUser(user);
         localStorage.setItem('currentUser', JSON.stringify(user));
     };

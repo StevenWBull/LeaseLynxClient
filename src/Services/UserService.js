@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-const API_URL = `${process.env.REACT_APP_API_ENDPOINT}/auth`;
+const API_URL = `${process.env.REACT_APP_API_ENDPOINT}`;
 
 const postLogin = async (email, password) => {
-    const response = await axios.post(`${API_URL}/login`, {
+    const response = await axios.post(`${API_URL}/auth/login`, {
         email,
         pword: password,
     });
@@ -12,7 +12,7 @@ const postLogin = async (email, password) => {
 };
 
 const postRegister = async (email, password, firstName, lastName) => {
-    const response = await axios.post(`${API_URL}/register`, {
+    const response = await axios.post(`${API_URL}/auth/register`, {
         email,
         pword: password,
         first_name: firstName,
@@ -27,8 +27,24 @@ const postLogout = async () => {
     // If you add such logic, remember to handle it here.
 };
 
+const patchUserInfo = async (token, userId, userData) => {
+    const updatedUserData = {
+        userID: userId,
+        ...userData,
+    };
+    const response = await axios.patch(`${API_URL}/user/`, updatedUserData, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+            Accept: 'application/json',
+        },
+    });
+    return response;
+};
+
 export default {
     postLogin,
     postRegister,
     postLogout,
+    patchUserInfo,
 };

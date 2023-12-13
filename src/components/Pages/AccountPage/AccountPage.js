@@ -1,21 +1,39 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Swal from 'sweetalert2';
+import { useAuth } from '../../../context/AuthContext';
+import UserService from '../../../Services/UserService';
+import useSweetAlert from '../../../hooks/useSweetAlert';
 
 const AccountPage = () => {
     const [userData, setUserData] = useState({
         firstName: '',
         lastName: '',
         email: '',
+        changePassword: false, // Added state to track if password should be changed
         password: '',
         confirmPassword: '',
         profileImage: null,
     });
 
-    const handleChange = (e) => {
-        const { name, value } = e.target;
+    const currentUser = useAuth().getUserData();
+    const { updateUser } = useAuth();
+    const { showAlert } = useSweetAlert();
+
+    useEffect(() => {
+        const { firstName, lastName, email } = currentUser;
         setUserData((prevData) => ({
             ...prevData,
-            [name]: value,
+            firstName,
+            lastName,
+            email,
+        }));
+    }, []);
+
+    const handleChange = (e) => {
+        const { name, value, type, checked } = e.target;
+        setUserData((prevData) => ({
+            ...prevData,
+            [name]: type === 'checkbox' ? checked : value,
         }));
     };
 
@@ -26,10 +44,15 @@ const AccountPage = () => {
         }));
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (userData.password !== userData.confirmPassword) {
-            Swal.fire({
+
+        // If the changePassword is true, then check for password match
+        if (
+            userData.changePassword &&
+            userData.password !== userData.confirmPassword
+        ) {
+            showAlert({
                 icon: 'error',
                 title: 'Oops...',
                 text: 'Passwords do not match!',
@@ -37,16 +60,47 @@ const AccountPage = () => {
             return;
         }
 
-        // Here you would handle the form submission, e.g., sending it to an API
-        Swal.fire({
-            icon: 'success',
-            title: 'Success!',
-            text: 'Your account has been updated.',
-        }).then(() => {
-            // Perform further actions like redirecting the user or clearing the form
-        });
+        // Construct the data object to submit based on whether the password is being changed
+        const submitData = {
+            firstName: userData.firstName,
+            lastName: userData.lastName,
+            email: userData.email,
+            ...(userData.changePassword && { password: userData.password }),
+            profileImage: userData.profileImage,
+        };
 
-        console.log(userData);
+        try {
+            const response = await UserService.patchUserInfo(
+                currentUser.token,
+                currentUser.id,
+                submitData
+            );
+
+            if (response.ok) {
+                const data = await response.json();
+                updateUser({ email: userData.email, token: data.token });
+                showAlert({
+                    icon: 'success',
+                    title: 'Success!',
+                    text: 'Your account has been updated.',
+                });
+            } else {
+                const errorData = await response.json();
+                showAlert({
+                    icon: 'error',
+                    title: 'Error',
+                    text: errorData.data.error || 'An unknown error occurred.',
+                });
+            }
+        } catch (error) {
+            showAlert({
+                icon: 'error',
+                title: 'Error',
+                text:
+                    error.response.data.error ||
+                    'An error occurred while updating your account.',
+            });
+        }
     };
 
     return (
@@ -67,7 +121,7 @@ const AccountPage = () => {
                             id="profileImage"
                             name="profileImage"
                             onChange={handleImageChange}
-                            className="w-full text-sm text-gray-700 file:mr-4 file:py-2 file:px-4
+                            className="w-full text-sm text-black-700 file:mr-4 file:py-2 file:px-4
                 file:rounded-md file:border-0
                 file:text-sm file:font-semibold
                 file:bg-blue-50 file:text-blue-700
@@ -88,7 +142,7 @@ const AccountPage = () => {
                             name="firstName"
                             value={userData.firstName}
                             onChange={handleChange}
-                            className="w-full p-2 rounded-md"
+                            className="w-full p-2 rounded-md text-black"
                             required
                         />
                     </div>
@@ -106,7 +160,7 @@ const AccountPage = () => {
                             name="lastName"
                             value={userData.lastName}
                             onChange={handleChange}
-                            className="w-full p-2 rounded-md"
+                            className="w-full p-2 rounded-md text-black"
                             required
                         />
                     </div>
@@ -124,45 +178,62 @@ const AccountPage = () => {
                             name="email"
                             value={userData.email}
                             onChange={handleChange}
-                            className="w-full p-2 rounded-md"
+                            className="w-full p-2 rounded-md text-black"
                             required
                         />
                     </div>
-                    {/* Password */}
+                    {/* Checkbox to indicate if the user wants to change the password */}
                     <div className="mb-4">
-                        <label
-                            htmlFor="password"
-                            className="block text-sm font-bold mb-2"
-                        >
-                            Password:
-                        </label>
                         <input
-                            type="password"
-                            id="password"
-                            name="password"
-                            value={userData.password}
+                            type="checkbox"
+                            id="changePassword"
+                            name="changePassword"
+                            checked={userData.changePassword}
                             onChange={handleChange}
-                            className="w-full p-2 rounded-md"
-                            required
+                            className="mr-2 leading-tight"
                         />
+                        <span>Check if you want to change your password</span>
                     </div>
-                    <div className="mb-4">
-                        <label
-                            htmlFor="confirmPassword"
-                            className="block text-sm font-bold mb-2"
-                        >
-                            Confirm Password:
-                        </label>
-                        <input
-                            type="password"
-                            id="confirmPassword"
-                            name="confirmPassword"
-                            value={userData.confirmPassword}
-                            onChange={handleChange}
-                            className="w-full p-2 rounded-md"
-                            required
-                        />
-                    </div>
+
+                    {/* Only show password fields if changePassword is true */}
+                    {userData.changePassword && (
+                        <>
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="password"
+                                    className="block text-sm font-bold mb-2"
+                                >
+                                    New Password:
+                                </label>
+                                <input
+                                    type="password"
+                                    id="password"
+                                    name="password"
+                                    value={userData.password}
+                                    onChange={handleChange}
+                                    className="w-full p-2 rounded-md text-black"
+                                    required={userData.changePassword}
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label
+                                    htmlFor="confirmPassword"
+                                    className="block text-sm font-bold mb-2"
+                                >
+                                    Confirm New Password:
+                                </label>
+                                <input
+                                    type="password"
+                                    id="confirmPassword"
+                                    name="confirmPassword"
+                                    value={userData.confirmPassword}
+                                    onChange={handleChange}
+                                    className="w-full p-2 rounded-md text-black"
+                                    required={userData.changePassword}
+                                />
+                            </div>
+                        </>
+                    )}
                     {/* Submit Button */}
                     <button
                         type="submit"

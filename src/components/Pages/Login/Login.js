@@ -18,7 +18,6 @@ const Login = () => {
                 email,
                 password
             );
-            console.log(token);
             login({ email, token });
         } catch (error) {
             const options = {
