@@ -51,6 +51,7 @@ const LeaseInfoForm = ({ onClose, onSave }) => {
                     placeholder="Leasee Name"
                     value={leaseeName}
                     onChange={(e) => setLeaseeName(e.target.value)}
+                    required
                 />
             </div>
             <div className="mb-4">
@@ -67,6 +68,7 @@ const LeaseInfoForm = ({ onClose, onSave }) => {
                     placeholder="leasee@example.com"
                     value={leaseeEmail}
                     onChange={(e) => setLeaseeEmail(e.target.value)}
+                    required
                 />
             </div>
             <div className="mb-4">
@@ -83,6 +85,7 @@ const LeaseInfoForm = ({ onClose, onSave }) => {
                     placeholder="555-555-5555"
                     value={leaseePhone}
                     onChange={(e) => setLeaseePhone(e.target.value)}
+                    required
                 />
             </div>
             <div className="mb-4">
@@ -99,6 +102,7 @@ const LeaseInfoForm = ({ onClose, onSave }) => {
                     placeholder="Lease Address"
                     value={leaseAddress}
                     onChange={(e) => setLeaseAddress(e.target.value)}
+                    required
                 />
             </div>
             <div className="mb-4">
@@ -115,6 +119,7 @@ const LeaseInfoForm = ({ onClose, onSave }) => {
                     placeholder="City"
                     value={leaseCity}
                     onChange={(e) => setLeaseCity(e.target.value)}
+                    required
                 />
             </div>
             <div className="mb-4">
@@ -131,6 +136,7 @@ const LeaseInfoForm = ({ onClose, onSave }) => {
                     placeholder="State"
                     value={leaseState}
                     onChange={(e) => setLeaseState(e.target.value)}
+                    required
                 />
             </div>
             <div className="mb-6">
@@ -147,6 +153,7 @@ const LeaseInfoForm = ({ onClose, onSave }) => {
                     placeholder="Zip Code"
                     value={leaseZip}
                     onChange={(e) => setLeaseZip(e.target.value)}
+                    required
                 />
             </div>
             <div className="mb-6">
@@ -162,6 +169,7 @@ const LeaseInfoForm = ({ onClose, onSave }) => {
                     type="date"
                     value={leaseStart}
                     onChange={(e) => setLeaseStart(e.target.value)}
+                    required
                 />
             </div>
             <div className="mb-6">
@@ -177,6 +185,7 @@ const LeaseInfoForm = ({ onClose, onSave }) => {
                     type="date"
                     value={leaseEnd}
                     onChange={(e) => setLeaseEnd(e.target.value)}
+                    required
                 />
             </div>
             <button
