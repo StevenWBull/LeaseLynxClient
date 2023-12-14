@@ -1,17 +1,29 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
-const LeaseInfoForm = ({ onSave }) => {
-    const [propertyAddress, setPropertyAddress] = useState('');
-    const [renterName, setRenterName] = useState('');
-    const [terminationDate, setTerminationDate] = useState('');
+const LeaseInfoForm = ({ onClose, onSave }) => {
+    const [leaseStart, setLeaseStart] = useState('2023-01-01');
+    const [leaseEnd, setLeaseEnd] = useState('2023-01-01');
+    const [leaseeName, setLeaseeName] = useState('Steven Bull');
+    const [leaseeEmail, setLeaseeEmail] = useState('steven@no.email.com');
+    const [leaseePhone, setLeaseePhone] = useState('8323640771');
+    const [leaseAddress, setLeaseAddress] = useState('111 No Lane Rd');
+    const [leaseCity, setLeaseCity] = useState('Hockley');
+    const [leaseState, setLeaseState] = useState('TX');
+    const [leaseZip, setLeaseZip] = useState('77447');
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const leaseInfo = {
-            propertyAddress,
-            renterName,
-            terminationDate,
+            leaseStart,
+            leaseEnd,
+            leaseeName,
+            leaseeEmail,
+            leaseePhone,
+            leaseAddress,
+            leaseCity,
+            leaseState,
+            leaseZip,
         };
         onSave(leaseInfo);
     };
@@ -24,58 +36,169 @@ const LeaseInfoForm = ({ onSave }) => {
             <h2 className="text-2xl font-semibold text-center mb-6">
                 Add Lease Information
             </h2>
+            {/* New input fields for additional data */}
             <div className="mb-4">
                 <label
                     className="block text-gray-700 text-sm font-bold mb-2"
-                    htmlFor="propertyAddress"
+                    htmlFor="leaseeName"
                 >
-                    Property Address
+                    Leasee Name
                 </label>
                 <input
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="propertyAddress"
+                    id="leaseeName"
                     type="text"
-                    placeholder="123 Main St"
-                    value={propertyAddress}
-                    onChange={(e) => setPropertyAddress(e.target.value)}
+                    placeholder="Leasee Name"
+                    value={leaseeName}
+                    onChange={(e) => setLeaseeName(e.target.value)}
                 />
             </div>
             <div className="mb-4">
                 <label
                     className="block text-gray-700 text-sm font-bold mb-2"
-                    htmlFor="renterName"
+                    htmlFor="leaseeEmail"
                 >
-                    Renter Name
+                    Leasee Email
                 </label>
                 <input
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                    id="renterName"
+                    id="leaseeEmail"
+                    type="email"
+                    placeholder="leasee@example.com"
+                    value={leaseeEmail}
+                    onChange={(e) => setLeaseeEmail(e.target.value)}
+                />
+            </div>
+            <div className="mb-4">
+                <label
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                    htmlFor="leaseePhone"
+                >
+                    Leasee Phone
+                </label>
+                <input
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="leaseePhone"
+                    type="tel"
+                    placeholder="555-555-5555"
+                    value={leaseePhone}
+                    onChange={(e) => setLeaseePhone(e.target.value)}
+                />
+            </div>
+            <div className="mb-4">
+                <label
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                    htmlFor="leaseAddress"
+                >
+                    Property Street Address
+                </label>
+                <input
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="leaseAddress"
                     type="text"
-                    placeholder="John Doe"
-                    value={renterName}
-                    onChange={(e) => setRenterName(e.target.value)}
+                    placeholder="Lease Address"
+                    value={leaseAddress}
+                    onChange={(e) => setLeaseAddress(e.target.value)}
+                />
+            </div>
+            <div className="mb-4">
+                <label
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                    htmlFor="leaseCity"
+                >
+                    City
+                </label>
+                <input
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="leaseCity"
+                    type="text"
+                    placeholder="City"
+                    value={leaseCity}
+                    onChange={(e) => setLeaseCity(e.target.value)}
+                />
+            </div>
+            <div className="mb-4">
+                <label
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                    htmlFor="leaseState"
+                >
+                    State
+                </label>
+                <input
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="leaseState"
+                    type="text"
+                    placeholder="State"
+                    value={leaseState}
+                    onChange={(e) => setLeaseState(e.target.value)}
                 />
             </div>
             <div className="mb-6">
                 <label
                     className="block text-gray-700 text-sm font-bold mb-2"
-                    htmlFor="terminationDate"
+                    htmlFor="leaseZip"
                 >
-                    Termination Date
+                    Zip Code
+                </label>
+                <input
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
+                    id="leaseZip"
+                    type="text"
+                    placeholder="Zip Code"
+                    value={leaseZip}
+                    onChange={(e) => setLeaseZip(e.target.value)}
+                />
+            </div>
+            <div className="mb-6">
+                <label
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                    htmlFor="leaseStart"
+                >
+                    Lease Start Date
                 </label>
                 <input
                     className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
-                    id="terminationDate"
+                    id="leaseStart"
                     type="date"
-                    value={terminationDate}
-                    onChange={(e) => setTerminationDate(e.target.value)}
+                    value={leaseStart}
+                    onChange={(e) => setLeaseStart(e.target.value)}
                 />
             </div>
+            <div className="mb-6">
+                <label
+                    className="block text-gray-700 text-sm font-bold mb-2"
+                    htmlFor="leaseEnd"
+                >
+                    Lease End
+                </label>
+                <input
+                    className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 mb-3 leading-tight focus:outline-none focus:shadow-outline"
+                    id="leaseEnd"
+                    type="date"
+                    value={leaseEnd}
+                    onChange={(e) => setLeaseEnd(e.target.value)}
+                />
+            </div>
+            <button
+                type="submit"
+                id="ok-btn"
+                className="px-4 py-2 bg-blue-500 text-white text-base font-medium rounded-md w-full shadow-sm hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-500"
+            >
+                Save
+            </button>
+            <button
+                id="close-btn"
+                className="mt-3 px-4 py-2 bg-gray-300 text-black text-base font-medium rounded-md w-full shadow-sm hover:bg-gray-400 focus:outline-none focus:ring-2 focus:ring-gray-300"
+                onClick={onClose}
+            >
+                Close
+            </button>
         </form>
     );
 };
 
 LeaseInfoForm.propTypes = {
+    onClose: PropTypes.func.isRequired,
     onSave: PropTypes.func.isRequired,
 };
 

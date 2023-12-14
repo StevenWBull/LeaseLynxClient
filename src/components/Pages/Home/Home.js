@@ -1,70 +1,82 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import PropertyCard from '../../PropertyCard/PropertyCard';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import LeaseInfoForm from '../../Forms/LeaseInfoForm';
 import Modal from '../../Modal/Modal';
 import { useAuth } from '../../../context/AuthContext';
+import LeaseDataService from '../../../Services/LeaseDataService';
+import useSweetAlert from '../../../hooks/useSweetAlert';
+import { useNavigate } from 'react-router-dom';
 
 const Home = () => {
     const currentUser = useAuth().getUserData();
+    console.log(currentUser);
     const [showModal, setShowModal] = useState(false);
-    const [leaseInfo, setLeaseInfo] = useState(null);
+    const [leaseInfo, setLeaseInfo] = useState([]);
+    const [leaseFormData, setLeaseFormData] = useState(null);
 
-    const handleSave = (info) => {
-        setLeaseInfo(info);
+    const { showAlert } = useSweetAlert();
+
+    const handleGetLeaseInfo = async () => {
+        const response = await LeaseDataService.getLeaseData(
+            currentUser.token,
+            currentUser.id
+        );
+        console.log(response);
+        if (response.status === 200) {
+            setLeaseInfo(response.data.leaseData);
+        } else {
+            const options = {
+                icon: 'error',
+                title: 'Error',
+                text: response?.data?.message || response?.message,
+            };
+            showAlert(options);
+        }
+    };
+
+    useEffect(() => {
+        handleGetLeaseInfo();
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    const handleSave = async (info) => {
+        setLeaseFormData(info);
         setShowModal(false); // Close the form after saving
+
+        const response = await LeaseDataService.postLeaseData(
+            currentUser.token,
+            currentUser.id,
+            info
+        );
+        if (response.status === 201) {
+            setLeaseInfo(response.data.leaseData);
+            const options = {
+                icon: 'success',
+                title: 'Success',
+                text: 'Lease data saved!',
+            };
+            showAlert(options);
+        } else {
+            const options = {
+                icon: 'error',
+                title: 'Error',
+                text: response?.data?.message || response?.message,
+            };
+            showAlert(options);
+        }
     };
 
     const handleClose = () => {
         setShowModal(false);
     };
 
-    // Sample data for properties (replace with your own data)
-    const properties = [
-        {
-            id: 1,
-            image: 'property1.jpg', // Replace with the actual image URL
-            address: '123 Main St',
-            renterName: 'John Doe',
-            terminationDate: '2023-12-31', // Replace with the termination date
-            daysUntilTermination: 0, // Replace with the number of days until termination
-        },
-        {
-            id: 2,
-            image: 'property1.jpg', // Replace with the actual image URL
-            address: '123 Main St',
-            renterName: 'John Doe',
-            terminationDate: '2023-12-31', // Replace with the termination date
-            daysUntilTermination: 0, // Replace with the number of days until termination
-        },
-        {
-            id: 3,
-            image: 'property1.jpg', // Replace with the actual image URL
-            address: '123 Main St',
-            renterName: 'John Doe',
-            terminationDate: '2023-12-31', // Replace with the termination date
-            daysUntilTermination: 0, // Replace with the number of days until termination
-        },
-        {
-            id: 4,
-            image: 'property1.jpg', // Replace with the actual image URL
-            address: '123 Main St',
-            renterName: 'John Doe',
-            terminationDate: '2023-12-31', // Replace with the termination date
-            daysUntilTermination: 0, // Replace with the number of days until termination
-        },
-        // Add more property objects here
-    ];
-
     return (
         <>
             {showModal && (
-                <Modal
-                    onClose={handleClose}
-                    onSave={() => handleSave(leaseInfo)}
-                >
-                    <LeaseInfoForm onSave={(info) => setLeaseInfo(info)} />
+                <Modal>
+                    <LeaseInfoForm onclose={handleClose} onSave={handleSave} />
                 </Modal>
             )}
             <div className="container mx-auto py-4 custom-min-height">
@@ -83,7 +95,7 @@ const Home = () => {
                     >
                         <FontAwesomeIcon icon={faPlus} size="2x" />
                     </button>
-                    {properties.map((property) => (
+                    {leaseInfo.map((property) => (
                         <PropertyCard key={property.id} property={property} />
                     ))}
                 </div>
