@@ -96,7 +96,7 @@ const Home = () => {
                         <FontAwesomeIcon icon={faPlus} size="2x" />
                     </button>
                     {leaseInfo.map((property) => (
-                        <PropertyCard key={property.id} property={property} />
+                        <PropertyCard key={property._id} property={property} />
                     ))}
                 </div>
             </div>

@@ -2,12 +2,20 @@ import React, { useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faTrash } from '@fortawesome/free-solid-svg-icons';
+import LeaseDataService from '../../../Services/LeaseDataService';
+import { useAuth } from '../../../context/AuthContext';
+import Swal from 'sweetalert2';
+import useSweetAlert from '../../../hooks/useSweetAlert';
 
 const LeaseDetails = () => {
+    const currentUser = useAuth().getUserData();
+    const { showAlert } = useSweetAlert();
+
     const [newNotes, setNewNotes] = useState('');
     const location = useLocation();
     const navigate = useNavigate();
     const leaseInfo = location.state?.leaseInfo; // Passed state containing lease info
+    console.log(leaseInfo);
 
     // Assuming currentNotes is a part of leaseInfo, otherwise you can set it from a fetch call or similar
     const currentNotes = leaseInfo?.notes || 'No current notes.';
@@ -63,9 +71,48 @@ const LeaseDetails = () => {
         navigate(-1); // Navigates back to the previous page
     };
 
-    const handleDelete = () => {
-        // Handle delete action here
-        console.log('Delete action triggered');
+    const handleDelete = async () => {
+        try {
+            const result = await Swal.fire({
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!',
+            });
+
+            if (result.isConfirmed) {
+                const response = await LeaseDataService.deleteLeaseData(
+                    currentUser.token,
+                    currentUser.id,
+                    leaseInfo._id
+                );
+                if (response.status === 204) {
+                    const options = {
+                        icon: 'success',
+                        title: 'Success',
+                        text: 'Lease deleted!',
+                    };
+                    showAlert(options, goBack());
+                } else {
+                    const options = {
+                        icon: 'error',
+                        title: 'Error',
+                        text: response?.data?.message || response?.message,
+                    };
+                    showAlert(options);
+                }
+            }
+        } catch (error) {
+            console.log(error);
+            showAlert({
+                icon: 'error',
+                title: 'Error',
+                text: 'There was an error deleting the lease data.',
+            });
+        }
     };
 
     return (

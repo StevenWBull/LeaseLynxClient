@@ -39,8 +39,7 @@ const deleteLeaseData = async (token, userId, leaseId) => {
         leaseId,
     };
     const response = await axios.delete(
-        `${API_URL}/lease`,
-        leaseData,
+        `${API_URL}/lease/${userId}/${leaseId}`,
         createHeaders(token)
     );
     return response;
