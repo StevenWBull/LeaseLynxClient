@@ -2,15 +2,15 @@ import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 
 const LeaseInfoForm = ({ onClose, onSave }) => {
-    const [leaseStart, setLeaseStart] = useState('2023-01-01');
-    const [leaseEnd, setLeaseEnd] = useState('2023-01-01');
-    const [leaseeName, setLeaseeName] = useState('Steven Bull');
-    const [leaseeEmail, setLeaseeEmail] = useState('steven@no.email.com');
-    const [leaseePhone, setLeaseePhone] = useState('8323640771');
-    const [leaseAddress, setLeaseAddress] = useState('111 No Lane Rd');
-    const [leaseCity, setLeaseCity] = useState('Hockley');
-    const [leaseState, setLeaseState] = useState('TX');
-    const [leaseZip, setLeaseZip] = useState('77447');
+    const [leaseStart, setLeaseStart] = useState('');
+    const [leaseEnd, setLeaseEnd] = useState('');
+    const [leaseeName, setLeaseeName] = useState('');
+    const [leaseeEmail, setLeaseeEmail] = useState('');
+    const [leaseePhone, setLeaseePhone] = useState('');
+    const [leaseAddress, setLeaseAddress] = useState('');
+    const [leaseCity, setLeaseCity] = useState('');
+    const [leaseState, setLeaseState] = useState('');
+    const [leaseZip, setLeaseZip] = useState('');
 
     const handleSubmit = (e) => {
         e.preventDefault();
