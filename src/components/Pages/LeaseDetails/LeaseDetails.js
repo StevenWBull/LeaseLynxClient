@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowLeft, faTrash } from '@fortawesome/free-solid-svg-icons';
 import LeaseDataService from '../../../Services/LeaseDataService';
+import NoteService from '../../../Services/NoteService';
 import { useAuth } from '../../../context/AuthContext';
 import Swal from 'sweetalert2';
 import useSweetAlert from '../../../hooks/useSweetAlert';
@@ -11,14 +12,13 @@ const LeaseDetails = () => {
     const currentUser = useAuth().getUserData();
     const { showAlert } = useSweetAlert();
 
-    const [newNotes, setNewNotes] = useState('');
+    const [newNote, setNewNote] = useState('');
     const location = useLocation();
     const navigate = useNavigate();
     const leaseInfo = location.state?.leaseInfo; // Passed state containing lease info
-    console.log(leaseInfo);
-
-    // Assuming currentNotes is a part of leaseInfo, otherwise you can set it from a fetch call or similar
-    const currentNotes = leaseInfo?.notes || 'No current notes.';
+    const [currentNotes, setCurrentNotes] = useState(
+        leaseInfo?.leaseNotes || []
+    );
 
     const fullAddress =
         leaseInfo?.leaseAddress +
@@ -57,14 +57,65 @@ const LeaseDetails = () => {
         return isoDateString.substring(0, 10);
     };
 
-    const handleNewNoteChange = (e) => {
-        setNewNotes(e.target.value);
+    const formatNoteDate = (isoDateString) => {
+        const date = new Date(isoDateString);
+        return date.toLocaleDateString('default', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit',
+        });
     };
 
-    const handleNoteSave = () => {
+    const renderNotes = () => {
+        return currentNotes.map((note, index) => (
+            <div key={index} className="note my-2">
+                <p className="note-date italic font-semibold">
+                    {formatNoteDate(note.added_date)}
+                </p>
+                <p className="note-content">{note.note}</p>
+            </div>
+        ));
+    };
+
+    const handleNewNoteChange = (e) => {
+        setNewNote(e.target.value);
+    };
+
+    const handleNoteSave = async () => {
         // Here you would save the new notes to your database or state management
-        console.log('New Notes to save:', newNotes);
-        // After saving you can update the current notes state or re-fetch it
+        console.log('New Notes to save:', newNote);
+        try {
+            const noteData = {
+                userId: currentUser.id,
+                leaseId: leaseInfo._id,
+                newNote,
+            };
+            const response = await NoteService.postNewNote(
+                currentUser.token,
+                noteData
+            );
+
+            if (response.status === 201) {
+                setCurrentNotes(response.data.notes);
+                const options = {
+                    icon: 'success',
+                    title: 'Success',
+                    text: 'New note saved!',
+                };
+                showAlert(options);
+                // Clear note text area
+                setNewNote('');
+            }
+        } catch (error) {
+            console.log(error);
+            showAlert({
+                icon: 'error',
+                title: 'Error',
+                text: 'There was an error saving the new note.',
+            });
+        }
     };
 
     const goBack = () => {
@@ -176,12 +227,14 @@ const LeaseDetails = () => {
 
             <div className="bg-gray-100 p-4 rounded-lg shadow-md mt-4">
                 <h3 className="text-lg font-semibold">Current Notes</h3>
-                <p>{currentNotes}</p>
+                <p>
+                    {currentNotes.length ? renderNotes() : 'No current notes.'}
+                </p>
             </div>
 
             <textarea
                 className="mt-4 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"
-                value={newNotes}
+                value={newNote}
                 onChange={handleNewNoteChange}
                 placeholder="Add new notes here..."
             ></textarea>
