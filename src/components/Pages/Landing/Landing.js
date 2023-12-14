@@ -28,36 +28,33 @@ const Landing = () => {
                 <div className="container mx-auto text-center">
                     <h2 className="text-3xl font-bold mb-8">Key Features</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {/* Feature 1 */}
+                        {/* Feature: Property Management */}
                         <div className="bg-white rounded-lg p-6 shadow-lg">
                             <h3 className="text-2xl font-semibold mb-4">
-                                Feature 1
+                                Property Management
                             </h3>
                             <p className="text-gray-600">
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit.
+                                Efficient handling of property-related tasks.
                             </p>
                         </div>
 
-                        {/* Feature 2 */}
+                        {/* Feature: Lease Information Management */}
                         <div className="bg-white rounded-lg p-6 shadow-lg">
                             <h3 className="text-2xl font-semibold mb-4">
-                                Feature 2
+                                Lease Information Management
                             </h3>
                             <p className="text-gray-600">
-                                Sed do eiusmod tempor incididunt ut labore et
-                                dolore magna aliqua.
+                                Keep track of all lease agreements.
                             </p>
                         </div>
 
-                        {/* Feature 3 */}
+                        {/* Feature: Payment Tracking */}
                         <div className="bg-white rounded-lg p-6 shadow-lg">
                             <h3 className="text-2xl font-semibold mb-4">
-                                Feature 3
+                                Payment Tracking
                             </h3>
                             <p className="text-gray-600">
-                                Ut enim ad minim veniam, quis nostrud
-                                exercitation ullamco.
+                                Monitor and record payments effortlessly.
                             </p>
                         </div>
                     </div>
@@ -69,67 +66,42 @@ const Landing = () => {
                 <div className="container mx-auto text-center">
                     <h2 className="text-3xl font-bold mb-8">Pricing Plans</h2>
                     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {/* Plan 1 */}
+                        {/* Basic Plan */}
                         <div className="bg-white rounded-lg p-6 shadow-lg text-black">
                             <h3 className="text-2xl font-semibold mb-4">
-                                Basic Plan
+                                Basic Plan - $29/month
                             </h3>
-                            <p className="text-gray-600">$19/month</p>
                             <ul className="mt-4">
-                                <li>Feature 1</li>
-                                <li>Feature 2</li>
-                                <li>Feature 3</li>
-                                <li>Feature 4</li>
+                                <li>Property Management</li>
+                                <li>Lease Information Management</li>
+                                <li>Limited Payment Tracking</li>
                             </ul>
-                            <br />
-                            <a
-                                href="#"
-                                className="bg-blue-900 text-white py-2 px-6 mt-6 rounded-full text-lg hover:bg-blue-700 transition duration-300 ease-in-out"
-                            >
-                                Get Started
-                            </a>
                         </div>
 
-                        {/* Plan 2 */}
+                        {/* Pro Plan */}
                         <div className="bg-white rounded-lg p-6 shadow-lg text-black">
                             <h3 className="text-2xl font-semibold mb-4">
-                                Pro Plan
+                                Pro Plan - $49/month
                             </h3>
-                            <p className="text-gray-600">$39/month</p>
                             <ul className="mt-4">
-                                <li>Feature 1</li>
-                                <li>Feature 2</li>
-                                <li>Feature 3</li>
-                                <li>Feature 4</li>
+                                <li>All Basic Plan features</li>
+                                <li>Full Payment Tracking</li>
+                                <li>Property Details Access</li>
+                                <li>Detailed Note Keeping</li>
                             </ul>
-                            <br />
-                            <a
-                                href="#"
-                                className="bg-blue-900 text-white py-2 px-6 mt-6 rounded-full text-lg hover:bg-blue-700 transition duration-300 ease-in-out"
-                            >
-                                Get Started
-                            </a>
                         </div>
 
-                        {/* Plan 3 */}
+                        {/* Premium Plan */}
                         <div className="bg-white rounded-lg p-6 shadow-lg text-black">
                             <h3 className="text-2xl font-semibold mb-4">
-                                Premium Plan
+                                Premium Plan - $69/month
                             </h3>
-                            <p className="text-gray-600">$59/month</p>
                             <ul className="mt-4">
-                                <li>Feature 1</li>
-                                <li>Feature 2</li>
-                                <li>Feature 3</li>
-                                <li>Feature 4</li>
+                                <li>All Pro Plan features</li>
+                                <li>Automated Lease Ending Reminders</li>
+                                <li>Priority Support</li>
+                                <li>Advanced Reporting Features</li>
                             </ul>
-                            <br />
-                            <a
-                                href="#"
-                                className="bg-blue-900 text-white py-2 px-6 mt-6 rounded-full text-lg hover:bg-blue-700 transition duration-300 ease-in-out"
-                            >
-                                Get Started
-                            </a>
                         </div>
                     </div>
                 </div>
