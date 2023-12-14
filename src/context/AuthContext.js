@@ -26,7 +26,12 @@ export const AuthProvider = ({ children }) => {
                 "lastName": "Doe"
             }
         */
-        const userToken = currentUser.token;
+        const userToken = currentUser?.token;
+
+        if (!userToken) {
+            return null;
+        }
+
         const jwtPayload = jwtDecode(userToken);
         return {
             ...jwtPayload,
