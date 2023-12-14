@@ -12,7 +12,7 @@ const AccountPage = () => {
         changePassword: false, // Added state to track if password should be changed
         password: '',
         confirmPassword: '',
-        profileImage: null,
+        // profileImage: null,
     });
 
     const currentUser = useAuth().getUserData();

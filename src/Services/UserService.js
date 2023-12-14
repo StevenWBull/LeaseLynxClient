@@ -29,7 +29,7 @@ const postLogout = async () => {
 
 const patchUserInfo = async (token, userId, userData) => {
     const updatedUserData = {
-        userID: userId,
+        userId: userId,
         ...userData,
     };
     const response = await axios.patch(`${API_URL}/user/`, updatedUserData, {
